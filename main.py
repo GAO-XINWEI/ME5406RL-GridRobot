@@ -1,6 +1,7 @@
 import time
 import gym
 import numpy as np
+
 import matplotlib.pyplot as plt
 from PIL import Image
 
@@ -388,14 +389,14 @@ if __name__ == '__main__':
             time.strftime('%Y/%m/%d %H:%M:%S', time.localtime(time.time()))))
     # task-1
     task1_mmc = MMC('GridWorld16-v01', max_episodes=4000, max_steps=20,
-                    init_randomize=True, is_render=False, is_sleep=False,
-                    gama=0.9, e=0.1)
+                    init_randomize=True, is_render=True, is_sleep=False,
+                    gama=0.95, e=0.1)
     task1_sarsa = SARSA('GridWorld16-v01', max_episodes=4000, max_steps=20,
-                        init_randomize=True, is_render=False, is_sleep=False,
-                        gama=0.9, e=0.1, lr=0.02)
+                        init_randomize=True, is_render=True, is_sleep=False,
+                        gama=0.95, e=0.1, lr=0.02)
     task1_qlearn = QLearning('GridWorld16-v01', max_episodes=4000, max_steps=20,
-                             init_randomize=True, is_render=False, is_sleep=False,
-                             gama=0.9, e=0.1, lr=0.02)
+                             init_randomize=True, is_render=True, is_sleep=False,
+                             gama=0.95, e=0.1, lr=0.02)
     task1_mmc.run_simulation()
     print('%s task-1 MMC Finished.' % (
         time.strftime('%Y/%m/%d %H:%M:%S', time.localtime(time.time()))))
@@ -407,14 +408,14 @@ if __name__ == '__main__':
         time.strftime('%Y/%m/%d %H:%M:%S', time.localtime(time.time()))))
     # # task-2
     task2_mmc = MMC('GridWorld100-v01', max_episodes=30000, max_steps=100,
-                    init_randomize=True, is_render=False, is_sleep=False,
-                    gama=0.9, e=0.1)
+                    init_randomize=True, is_render=True, is_sleep=False,
+                    gama=0.95, e=0.05)
     task2_sarsa = SARSA('GridWorld100-v01', max_episodes=30000, max_steps=100,
-                        init_randomize=True, is_render=False, is_sleep=False,
-                        gama=0.9, e=0.1, lr=0.02)
+                        init_randomize=True, is_render=True, is_sleep=False,
+                        gama=0.95, e=0.05, lr=0.04)
     task2_qlearn = QLearning('GridWorld100-v01', max_episodes=30000, max_steps=100,
-                             init_randomize=True, is_render=False, is_sleep=False,
-                             gama=0.9, e=0.1, lr=0.02)
+                             init_randomize=True, is_render=True, is_sleep=False,
+                             gama=0.95, e=0.05, lr=0.04)
     task2_mmc.run_simulation()
     print('%s task-2 MMC Finished.' % (
         time.strftime('%Y/%m/%d %H:%M:%S', time.localtime(time.time()))))
@@ -516,5 +517,55 @@ if __name__ == '__main__':
     plt_task2_reward.plot(task2_qlearn.record_R, 'b-')
 
     # Keep Showing
+    plt.ioff()
+    plt.show()
+
+    ''' Show the different Q table for result '''
+    plt.ion()
+    plt.clf()
+
+    # task 1
+    # arrange in order
+    task1_sarsa_Qmap = np.zeros((4,4))
+    task1_qlearn_Qmap = np.zeros((4,4))
+    for i in range(4):
+        for j in range (4):
+            task1_sarsa_Qmap[i][j] = max(task1_sarsa.state_action_ereward[4 * (3-i) + j])
+            task1_qlearn_Qmap[i][j] = max(task1_qlearn.state_action_ereward[4 * (3-i) + j])
+    # sarsa
+    plt.imshow(task1_sarsa_Qmap)
+    for i in range(4):
+        for j in range (4):
+            plt.text(j,i,'%.3f'% task1_sarsa_Qmap[i][j], ha='center', va='center')#,fontsize=9)
+    plt.ioff()
+    plt.show()
+    # qlearn
+    plt.imshow(task1_qlearn_Qmap)
+    for i in range(4):
+        for j in range (4):
+            plt.text(j,i,'%.3f'% task1_qlearn_Qmap[i][j], ha='center', va='center')#,fontsize=9)
+    plt.ioff()
+    plt.show()
+
+    # task 2
+    # arrange in order
+    task2_sarsa_Qmap = np.zeros((10,10))
+    task2_qlearn_Qmap = np.zeros((10,10))
+    for i in range(10):
+        for j in range(10):
+            task2_sarsa_Qmap[i][j] = max(task2_sarsa.state_action_ereward[10 * (9-i) + j])
+            task2_qlearn_Qmap[i][j] = max(task2_qlearn.state_action_ereward[10 * (9-i) + j])
+    # sarsa
+    plt.imshow(task2_sarsa_Qmap)
+    for i in range(10):
+        for j in range(10):
+            plt.text(j,i,'%.3f'% task2_sarsa_Qmap[i][j], ha='center', va='center')#,fontsize=9)
+    plt.ioff()
+    plt.show()
+    # qlwarn
+    plt.imshow(task2_qlearn_Qmap)
+    for i in range(10):
+        for j in range (10):
+            plt.text(j,i,'%.3f'% task2_qlearn_Qmap[i][j], ha='center', va='center')#,fontsize=9)
     plt.ioff()
     plt.show()
