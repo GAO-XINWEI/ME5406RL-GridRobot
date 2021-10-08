@@ -25,6 +25,8 @@ After that the 'main.py' is ready to run.
 - ![f2](https://user-images.githubusercontent.com/76041828/136560019-cdec08a0-aab4-4ddc-8420-ea19107f3ee3.png)
 
 ## The state table of the gride world:
+The grey grides represent the holes that leads to fail.
+The yellow grides represent the grides that are remarked as recording points for result.
 - ![f1](https://user-images.githubusercontent.com/76041828/136560036-87612544-121a-4117-9933-a901a7292777.png)
 
 # Result
